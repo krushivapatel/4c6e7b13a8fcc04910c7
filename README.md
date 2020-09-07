@@ -1,24 +1,190 @@
-# README
+Steps to access API for twitter-app
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+1) rails db:create
 
-Things you may want to cover:
+2) rails db:migrate
 
-* Ruby version
+3) rails s
 
-* System dependencies
+List of APIs
 
-* Configuration
+1) User registration
 
-* Database creation
+URL: localhost:3000/users \
+Method: POST \
+Headers: \
+    Content-type: application/json \
+Request parameters: \
+{\
+	"user": {\
+		"email": "test@gmail.com",\
+		"password": "123456",\
+		"password_confirmation": "123456"\
+	}\
+}\
+Expected result: \
+{ \
+    "success": true, \
+    "message": "Registration successful.", \
+    "user": { \
+        "id": 3, \
+        "email": "test@gmail.com", \
+        "auth_token": "xv2zMwFs9jZ9_Ls7_v6s", \
+        "created_at": "2020-09-07T06:51:50.931Z", \
+        "updated_at": "2020-09-07T06:51:50.931Z" \
+    } \
+} \
 
-* Database initialization
+2) User login
 
-* How to run the test suite
+URL: localhost:3000/users/sign_in \
+Method: POST \
+Headers: \
+    Content-type: application/json \
+Request parameters: \
+{\
+	"user": {\
+		"email": "test@gmail.com",\
+		"password": "123456"\
+	}\
+}\
+Expected result: \
+{ \
+    "success": true, \
+    "message": "Login successful", \
+    "user": { \
+        "id": 3, \
+        "email": "test@gmail.com", \
+        "auth_token": "xv2zMwFs9jZ9_Ls7_v6s", \
+        "created_at": "2020-09-07T06:51:50.931Z", \
+        "updated_at": "2020-09-07T06:51:50.931Z" \
+    } \
+} \
 
-* Services (job queues, cache servers, search engines, etc.)
+3) User logout
 
-* Deployment instructions
+URL: localhost:3000/users/sign_out \
+Method: DELETE \
+Headers: \
+    Content-type: application/json \
+    Authorization: iJo-J814EjY7U86QASJK \
+Expected result: \
+{\
+    "success": true,\
+    "message": "Logged out successful"\
+}\
 
-* ...
+4) Follow user
+
+URL: localhost:3000/relationships \
+Method: POST \
+Headers: \
+    Content-type: application/json \
+    Authorization: iJo-J814EjY7U86QASJK \
+Request parameters: \
+{\
+	"followed_id":1\
+}\
+Expected result: \
+{\
+    "success": true,\
+    "message": "Successfully followed this user."\
+}\
+
+5) Unfollow user
+
+URL: localhost:3000/relationships/1 \
+Method: DELETE \
+Headers: \
+    Content-type: application/json \
+    Authorization: iJo-J814EjY7U86QASJK \
+Expected result: \
+{\
+    "success": true,\
+    "message": "Successfully unfollowed this user."\
+}\
+
+6) Create tweets
+
+URL: localhost:3000/tweets \
+Method: POST \
+Headers: \
+    Content-type: application/json \
+    Authorization: iJo-J814EjY7U86QASJK \
+Request parameters: \
+{\
+	"tweet": {\
+		"content": "My first tweet"\
+	}\
+}\
+Expected result: \
+{\
+    "id": 3,\
+    "content": "My first tweet",\
+    "created_at": "2020-09-07T07:15:05.743Z",\
+    "user": {\
+        "id": 1,\
+        "email": "krushiva.patel@tatvasoft.com"\
+    }\
+}\
+
+7) List of tweets
+
+URL: localhost:3000/tweets?user_id=3 \
+Method: GET \
+Headers: \
+    Authorization: iJo-J814EjY7U86QASJK \
+Expected result: \
+[\
+    {\
+        "id": 3,\
+        "content": "My first tweet",\
+        "created_at": "2020-09-07T07:15:05.743Z",\
+        "user": {\
+            "id": 1,\
+            "email": "krushiva.patel@tatvasoft.com"\
+        }\
+    }\
+]\
+
+8) Get current user's profile
+
+URL: localhost:3000/profile \
+Method: GET \
+Headers: \
+    Authorization: iJo-J814EjY7U86QASJK \
+Expected result: \
+{\
+    "id": 3,\
+    "email": "test@gmail.com",\
+    "followers": [],\
+    "following": [\
+        {\
+            "id": 1,\
+            "email": "krushiva.patel@tatvasoft.com"\
+        },\
+        {\
+            "id": 2,\
+            "email": "krushivapatel@gmail.com"\
+        }\
+    ]\
+}\
+
+9) Get other user's profile
+
+URL: localhost:3000/profile \
+Method: GET \
+Headers: \
+    Authorization: iJo-J814EjY7U86QASJK \
+Expected result: \
+{\
+    "id": 1,\
+    "email": "krushiva.patel@tatvasoft.com",\
+    "followers": [\
+        {\
+            "id": 3,\
+            "email": "test@gmail.com"\
+        }\
+    ],\
+    "following": []\
+}\
