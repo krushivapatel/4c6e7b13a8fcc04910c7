@@ -172,7 +172,7 @@ Expected result: \
 
 9) Get other user's profile
 
-URL: localhost:3000/profile \
+URL: localhost:3000/user_profile/1 \
 Method: GET \
 Headers: \
 &nbsp;Authorization: iJo-J814EjY7U86QASJK \
